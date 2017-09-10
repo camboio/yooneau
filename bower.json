@@ -1,0 +1,21 @@
+{
+  "name": "redux-simple-starter",
+  "description": "Simple starter package for Redux with React and Babel support",
+  "main": "index.js",
+  "authors": [
+    "Anthony Campbell <anthony@cambo.io>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/camboio/reduxsimplestarter",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "bootstrap": "^3.3.7"
+  }
+}
