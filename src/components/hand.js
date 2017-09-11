@@ -1,18 +1,16 @@
 import React from 'react';
 
-import Card from './card';
-
-export default class Deck extends React.Component{
-   displayDeck(){
+export default class Hand extends React.Component{
+   displayCards(){
       return this.props.cards.map((card, index) => <div key={index} style={{minWidth: '75px'}}>{`${card.colour} ${card.value}`}</div>);
    }
 
    render(){
       return (
          <div>
-            deck: {this.props.cards.length}
+            Hand:
             <div style={{display: 'flex'}}>
-               {this.displayDeck()}
+               {this.displayCards()}
             </div>
          </div>
       );

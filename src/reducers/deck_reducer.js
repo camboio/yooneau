@@ -1,4 +1,4 @@
-import { Game } from '../components/game';
+import Game from '../components/game';
 import * as types from '../actions/types';
 
 const initialDeckState = {
@@ -66,6 +66,9 @@ export default function(state = initialDeckState, action){
             unplayedCards: state.playedCards.splice(0, state.playedCards.length-1),
             playedCards: [state.playedCards.pop()]
          }
+      case types.DRAW_CARD:
+         let dcUnplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
+         return { ...state, unplayedCards: dcUnplayed }
    }
    return state;
 }

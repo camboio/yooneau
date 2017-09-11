@@ -2,25 +2,62 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
+import * as types from '../actions/types';
 
+import Game from './game';
 import Deck from './deck';
 import PlayedCards from './played_cards';
+import AiPlayer from './ai_player';
 
 class App extends Component {
-   constructor(props){
-      super(props);
-   }
-
    componentDidMount(){
-      if(this.props.deck.playedCards.length == 0){
-         this.props.playFromDeck();
-      }
+      this.props.gameInitialise();
    }
 
    componentWillReceiveProps(nextProps){
+      // console.log(nextProps);
+
+      const players = Object.keys(nextProps.players);
+      //determine how many cards to be dealt
+      const cardsToDeal = Game.CARDS_IN_DECK - (Game.CARDS_TO_DEAL * players.length);
+
       if(nextProps.deck.unplayedCards.length == 0){
-         this.props.rebuildDeck();
+         nextProps.rebuildDeck();
       }
+      //game ready to initialise
+      if(this.props.game.state !== nextProps.game.state
+      && nextProps.game.state == types.GAME_INITIALISE){
+         // deal first card from the deck
+         if(nextProps.deck.playedCards.length == 0){
+            nextProps.playFromDeck();
+         }
+         // add 4 AI players
+         for(let i = 0; i < 4; i++){
+            nextProps.addAiPlayer(`Player ${i + 1}`);
+         }
+      }
+      //game ready to deal
+      if(nextProps.game.state == types.GAME_INITIALISE && nextProps.deck.unplayedCards.length == 107){
+         this.props.gameDeal();
+      }
+      //deal state
+      if(nextProps.game.state == types.GAME_DEAL &&
+      nextProps.deck.unplayedCards.length >= cardsToDeal){
+         // debugger;
+         // determine player id based on amount of cards left to deal
+         let p = players.length - (nextProps.deck.unplayedCards.length - cardsToDeal) % players.length;
+         this.props.drawCard(nextProps.players[p], nextProps.deck.unplayedCards[0]);
+      }
+      if(nextProps.game.state == types.GAME_DEAL &&
+      nextProps.deck.unplayedCards.length == cardsToDeal - 1){
+         console.log('dealin\'s done');
+      }
+   }
+
+   renderPlayers(){
+      return Object.keys(this.props.players).map((key, index) => {
+         return <AiPlayer key={index} player={this.props.players[key]} />;
+      });
    }
 
    render() {
@@ -28,9 +65,7 @@ class App extends Component {
          <div>
             <Deck cards={this.props.deck.unplayedCards}/>
             <PlayedCards cards={this.props.deck.playedCards}/>
-            <div className="btn btn-primary" onClick={(e) => {
-               this.props.playFromDeck();
-            }}>play from deck</div>
+            {this.renderPlayers()}
          </div>
       );
    }
@@ -38,7 +73,9 @@ class App extends Component {
 
 function mapStateToProps(state){
    return {
-      deck: state.deck
+      deck: state.deck,
+      players: state.players,
+      game: state.game
    };
 }
 
