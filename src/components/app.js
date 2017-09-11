@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Home from './home';
+import { connect } from 'react-redux';
 
-export default class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-         <div className="app-container">
-            <Switch>
-               <Route exact path="/" component={Home} />
-               <Redirect to="/" />
-            </Switch>
+import * as actions from '../actions';
+
+import Deck from './deck';
+import PlayedCards from './played_cards';
+
+class App extends Component {
+   constructor(props){
+      super(props);
+   }
+
+   componentDidMount(){
+      if(this.props.deck.playedCards.length == 0){
+         this.props.playFromDeck();
+      }
+   }
+
+   componentWillReceiveProps(nextProps){
+      if(nextProps.deck.unplayedCards.length == 0){
+         this.props.rebuildDeck();
+      }
+   }
+
+   render() {
+      return (
+         <div>
+            <Deck cards={this.props.deck.unplayedCards}/>
+            <PlayedCards cards={this.props.deck.playedCards}/>
+            <div className="btn btn-primary" onClick={(e) => {
+               this.props.playFromDeck();
+            }}>play from deck</div>
          </div>
-      </BrowserRouter>
-    );
-  }
+      );
+   }
 }
+
+function mapStateToProps(state){
+   return {
+      deck: state.deck
+   };
+}
+
+export default connect(mapStateToProps, actions)(App);
