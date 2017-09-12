@@ -52,14 +52,15 @@ function shuffleDeck(deck){
 }
 
 export default function(state = initialDeckState, action){
+   let played, unplayed, nextState;
+
    switch(action.type){
       case types.SHUFFLE_DECK:
          return { ...state, unplayedCards: shuffleDeck(action.payload)};
       case types.PLAY_FROM_DECK:
-         let pfdUnplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
-         let pfdPlayed = [...state.playedCards, state.unplayedCards[0]];
-
-         return { ...state, unplayedCards: pfdUnplayed, playedCards: pfdPlayed };
+         unplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
+         played = [...state.playedCards, state.unplayedCards[0]];
+         return { ...state, unplayedCards: unplayed, playedCards: played };
       case types.REBUILD_DECK:
          return {
             ...state,
@@ -67,8 +68,12 @@ export default function(state = initialDeckState, action){
             playedCards: [state.playedCards.pop()]
          }
       case types.DRAW_CARD:
-         let dcUnplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
-         return { ...state, unplayedCards: dcUnplayed }
+         unplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
+         return { ...state, unplayedCards: unplayed }
+      case types.PLAY_CARD:
+         nextState = { ...state };
+         nextState.playedCards.push(action.payload.card);
+         return nextState;
    }
    return state;
 }

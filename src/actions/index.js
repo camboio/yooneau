@@ -13,8 +13,13 @@ export function addAiPlayer(name){
 }
 
 export function drawCard(player, card){
-   console.log(player, card);
+   // console.log(player, card);
    return {type: types.DRAW_CARD, payload: {player, card}};
+}
+
+export function playCard(player, card){
+   console.log(player, card);
+   return {type: types.PLAY_CARD, payload: {player, card}};
 }
 
 export function gameInitialise(){
@@ -23,4 +28,16 @@ export function gameInitialise(){
 
 export function gameDeal(){
    return {type: types.GAME_DEAL};
+}
+
+export function gameFirstPlayer(){
+   return {type: types.GAME_FIRST_PLAYER};
+}
+
+export function gameNextPlayer(){
+   return {type: types.GAME_NEXT_PLAYER};
+}
+
+export function gamePlayerPlaying(){
+   return {type: types.GAME_PLAYER_PLAYING};
 }

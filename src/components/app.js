@@ -43,14 +43,19 @@ class App extends Component {
       //deal state
       if(nextProps.game.state == types.GAME_DEAL &&
       nextProps.deck.unplayedCards.length >= cardsToDeal){
-         // debugger;
          // determine player id based on amount of cards left to deal
          let p = players.length - (nextProps.deck.unplayedCards.length - cardsToDeal) % players.length;
          this.props.drawCard(nextProps.players[p], nextProps.deck.unplayedCards[0]);
       }
+      //if the dealing is done, switch focus to first player
       if(nextProps.game.state == types.GAME_DEAL &&
       nextProps.deck.unplayedCards.length == cardsToDeal - 1){
-         console.log('dealin\'s done');
+         // console.log('dealin\'s done');
+         this.props.gameFirstPlayer();
+      }
+      //first player has been made active, switch to playing state
+      if(nextProps.game.state == types.GAME_FIRST_PLAYER){
+         this.props.gamePlayerPlaying();
       }
    }
 
