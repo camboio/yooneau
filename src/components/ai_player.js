@@ -7,13 +7,25 @@ import Hand from './hand';
 
 class AiPlayer extends React.Component{
    componentWillReceiveProps(nextProps){
-      if(nextProps.player.active){
+      if(nextProps.active){
          console.log(`I'm ${nextProps.player.name} and I'm active now!`);
       }
    }
 
+   drawCard(){
+      if(!this.props.active){
+         return null;
+      }
+      const card = this.props.unplayed;
+      this.props.drawCard(this.props.player, card);
+      if(this.playableCard(card)){
+         this.props.playCard(this.props.player, card);
+      }
+      this.props.gameNextPlayer();
+   }
+
    playCard(card){
-      if(!this.props.player.active || !this.playableCard(card)){
+      if(!this.props.active || !this.playableCard(card)){
          return null;
       }
       const player = this.props.player;
@@ -22,7 +34,7 @@ class AiPlayer extends React.Component{
    }
 
    playableCard(card){
-      const faceUp = [...this.props.deck.playedCards].pop();
+      const faceUp = this.props.played;
       if(faceUp.colour == card.colour ||
       faceUp.value == card.value){
          return true;
@@ -34,22 +46,12 @@ class AiPlayer extends React.Component{
       return(
          <div>
             {this.props.player.name}
-            {this.props.player.active ? ' active' : null}
+            {this.props.active ? ' active' : null}
             <Hand cards={this.props.player.cards}
             play={this.playCard.bind(this)}
             playable={this.playableCard.bind(this)} />
-            <div className={`btn btn-${this.props.player.active ? 'primary' : 'default'}`}
-            onClick={(e) => {
-               if(!this.props.player.active){
-                  return null;
-               }
-               const card = this.props.deck.unplayedCards[0];
-               this.props.drawCard(this.props.player, card);
-               if(this.playableCard(card)){
-                  this.props.playCard(this.props.player, card);
-               }
-               this.props.gameNextPlayer();
-            }}>
+            <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
+            onClick={this.drawCard.bind(this)}>
                draw card
             </div>
          </div>
@@ -57,11 +59,4 @@ class AiPlayer extends React.Component{
    }
 }
 
-function mapStateToProps(state){
-   return {
-      deck: state.deck,
-      players: state.players
-   }
-}
-
-export default connect(mapStateToProps, actions)(AiPlayer);
+export default connect(null, actions)(AiPlayer);

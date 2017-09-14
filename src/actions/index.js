@@ -8,8 +8,8 @@ export function rebuildDeck(){
    return {type: types.REBUILD_DECK};
 }
 
-export function addAiPlayer(name){
-   return {type: types.ADD_AI_PLAYER, payload: name};
+export function addAiPlayer(name, active = false){
+   return {type: types.ADD_AI_PLAYER, payload: {name, active}};
 }
 
 export function drawCard(player, card){

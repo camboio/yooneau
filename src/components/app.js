@@ -20,48 +20,63 @@ class App extends Component {
       const players = Object.keys(nextProps.players);
       //determine how many cards to be dealt
       const cardsToDeal = Game.CARDS_IN_DECK - (Game.CARDS_TO_DEAL * players.length);
-
       if(nextProps.deck.unplayedCards.length == 0){
          nextProps.rebuildDeck();
       }
+      const dealtCards = nextProps.deck.unplayedCards.length + 1;
       //game ready to initialise
-      if(this.props.game.state !== nextProps.game.state
-      && nextProps.game.state == types.GAME_INITIALISE){
+      if(nextProps.game.state == types.GAME_INITIALISE && nextProps.deck.unplayedCards.length == 108){
+         console.log('game initialise');
          // deal first card from the deck
          if(nextProps.deck.playedCards.length == 0){
             nextProps.playFromDeck();
          }
          // add 4 AI players
          for(let i = 0; i < 4; i++){
-            nextProps.addAiPlayer(`Player ${i + 1}`);
+            const active = i == 0 ? false : false;
+            nextProps.addAiPlayer(`Player ${i + 1}`, active);
          }
+
       }
-      //game ready to deal
+      //game ready to deal, switch focus to first player
       if(nextProps.game.state == types.GAME_INITIALISE && nextProps.deck.unplayedCards.length == 107){
+         console.log('game deal');
          this.props.gameDeal();
       }
       //deal state
       if(nextProps.game.state == types.GAME_DEAL &&
-      nextProps.deck.unplayedCards.length >= cardsToDeal){
+      dealtCards > cardsToDeal){
          // determine player id based on amount of cards left to deal
          let p = players.length - (nextProps.deck.unplayedCards.length - cardsToDeal) % players.length;
          this.props.drawCard(nextProps.players[p], nextProps.deck.unplayedCards[0]);
       }
-      //if the dealing is done, switch focus to first player
+      //dealing is done
       if(nextProps.game.state == types.GAME_DEAL &&
-      nextProps.deck.unplayedCards.length == cardsToDeal - 1){
-         // console.log('dealin\'s done');
+      dealtCards == cardsToDeal){
+         console.log('deal done');
          this.props.gameFirstPlayer();
       }
       //first player has been made active, switch to playing state
       if(nextProps.game.state == types.GAME_FIRST_PLAYER){
+         console.log('game first player');
+         this.props.gamePlayerPlaying();
+      }
+      if(nextProps.game.state == types.GAME_PLAYER_PLAYING){
+         console.log('game player playing');
+      }
+      if(nextProps.game.state === types.GAME_NEXT_PLAYER){
+         console.log('game next player');
          this.props.gamePlayerPlaying();
       }
    }
 
    renderPlayers(){
-      return Object.keys(this.props.players).map((key, index) => {
-         return <AiPlayer key={index} player={this.props.players[key]} />;
+      const players = {...this.props.players};
+      return Object.keys(players).map((key, index) => {
+         return <AiPlayer key={index} player={players[key]}
+         active={this.props.active == key ? true : false}
+         played={[...this.props.deck.playedCards].pop()}
+         unplayed={this.props.deck.unplayedCards[0]} />;
       });
    }
 
@@ -79,7 +94,8 @@ class App extends Component {
 function mapStateToProps(state){
    return {
       deck: state.deck,
-      players: state.players,
+      players: state.players.players,
+      active: state.players.active,
       game: state.game
    };
 }

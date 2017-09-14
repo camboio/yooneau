@@ -4,62 +4,59 @@ import * as types from '../actions/types';
 //   id: key
 //   name: string
 //   cards: array
-//   active: bool
 // }
+// active: string
 
-export default function(state = {}, action){
+export default function(state = {active: null, players: {}}, action){
    let nextState, nextCards, key, player, x;
 
    switch(action.type){
       case types.ADD_AI_PLAYER:
          nextState = { ...state };
-         key = Object.keys(nextState).length + 1;
+         key = Object.keys(nextState.players).length + 1;
          player = {
             id: key,
-            name: action.payload,
+            name: action.payload.name,
             cards: [],
-            active: false
+            active: action.payload.active
          }
-         nextState[key] = player;
+         nextState.players[key] = player;
          return nextState;
       case types.DRAW_CARD:
          nextState = { ...state };
          key = action.payload.player.id;
-         nextState[key].cards.push(action.payload.card);
+         nextState.players[key].cards.push(action.payload.card);
          return nextState;
       case types.PLAY_CARD:
          nextState = { ...state };
          key = action.payload.player.id;
          nextCards = [];
          x = true;
-         for(let i = 0; i < nextState[key].cards.length; i++){
-            if(x && nextState[key].cards[i] == action.payload.card){
+         for(let i = 0; i < nextState.players[key].cards.length; i++){
+            if(x && nextState.players[key].cards[i] == action.payload.card){
                x = !x; continue;
             }
-            nextCards.push(nextState[key].cards[i]);
+            nextCards.push(nextState.players[key].cards[i]);
          }
-         nextState[key].cards = nextCards;
+         nextState.players[key].cards = nextCards;
          return nextState;
       case types.GAME_FIRST_PLAYER:
          nextState = { ...state };
-         key = Object.keys(nextState);
+         key = Object.keys(nextState.players);
          player = 0;
-         nextState[key[player]].active = true;
+         nextState.active = key[player];
          return nextState;
       case types.GAME_NEXT_PLAYER:
+         //next player should come in action.payload when implementing directional shifts
          nextState = { ...state };
-         x = true;
-         key = Object.keys(nextState);
+         key = Object.keys(nextState.players);
          player = 0;
-         //check if player is active
-         for(let i = 0; i < key.length; i++){
-            if(x && nextState[key[i]].active){
-               x = false;
-               nextState[key[i]].active = false;
-               player = (i + 1) % key.length;
+         key.map((k, index) => {
+            if(k == nextState.active){
+               player = (index + 1) % key.length;
             }
-         }
-         nextState[key[player]].active = true;
+         });
+         nextState.active = key[player];
          return nextState;
    }
    return state;
