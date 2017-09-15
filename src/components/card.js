@@ -7,8 +7,7 @@ export default class Card extends React.Component{
       this.colour = this.props.card.colour;
       this.value = this.props.card.value;
 
-      this.displayName = this.value;
-      switch(this.displayName){
+      switch(this.props.card.value){
          case 10:
             this.displayName = 'Reverse';
             break;

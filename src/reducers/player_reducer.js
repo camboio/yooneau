@@ -13,12 +13,12 @@ export default function(state = {active: null, players: {}}, action){
    switch(action.type){
       case types.ADD_AI_PLAYER:
          nextState = { ...state };
-         key = Object.keys(nextState.players).length + 1;
+         key = Object.keys(nextState.players).length;
          player = {
             id: key,
-            name: action.payload.name,
+            name: action.payload,
             cards: [],
-            active: action.payload.active
+            active: false
          }
          nextState.players[key] = player;
          return nextState;
@@ -43,19 +43,12 @@ export default function(state = {active: null, players: {}}, action){
       case types.GAME_FIRST_PLAYER:
          nextState = { ...state };
          key = Object.keys(nextState.players);
-         player = 0;
-         nextState.active = key[player];
+         nextState.active = key[0];
          return nextState;
       case types.GAME_NEXT_PLAYER:
-         //next player should come in action.payload when implementing directional shifts
          nextState = { ...state };
          key = Object.keys(nextState.players);
-         player = 0;
-         key.map((k, index) => {
-            if(k == nextState.active){
-               player = (index + 1) % key.length;
-            }
-         });
+         player = action.payload;
          nextState.active = key[player];
          return nextState;
    }

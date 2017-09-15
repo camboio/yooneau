@@ -62,10 +62,16 @@ export default function(state = initialDeckState, action){
          played = [...state.playedCards, state.unplayedCards[0]];
          return { ...state, unplayedCards: unplayed, playedCards: played };
       case types.REBUILD_DECK:
+         played = [...state.playedCards].map((c) => {
+            if(c.value >= 13){
+               c.colour = "black";
+            }
+            return c;
+         });
          return {
             ...state,
-            unplayedCards: state.playedCards.splice(0, state.playedCards.length-1),
-            playedCards: [state.playedCards.pop()]
+            unplayedCards: played.splice(0, played.length-1),
+            playedCards: [played.pop()]
          }
       case types.DRAW_CARD:
          unplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);

@@ -8,8 +8,8 @@ export function rebuildDeck(){
    return {type: types.REBUILD_DECK};
 }
 
-export function addAiPlayer(name, active = false){
-   return {type: types.ADD_AI_PLAYER, payload: {name, active}};
+export function addAiPlayer(name){
+   return {type: types.ADD_AI_PLAYER, payload: name};
 }
 
 export function drawCard(player, card){
@@ -34,8 +34,12 @@ export function gameFirstPlayer(){
    return {type: types.GAME_FIRST_PLAYER};
 }
 
-export function gameNextPlayer(){
-   return {type: types.GAME_NEXT_PLAYER};
+export function gameNextPlayer(player){
+   return {type: types.GAME_NEXT_PLAYER, payload: player};
+}
+
+export function gameEvaluateMove(){
+   return {type: types.GAME_EVALUATE_MOVE};
 }
 
 export function gamePlayerPlaying(){
