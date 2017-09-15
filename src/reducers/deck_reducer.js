@@ -58,8 +58,15 @@ export default function(state = initialDeckState, action){
       case types.SHUFFLE_DECK:
          return { ...state, unplayedCards: shuffleDeck(action.payload)};
       case types.PLAY_FROM_DECK:
-         unplayed = state.unplayedCards.splice(1, state.unplayedCards.length-1);
-         played = [...state.playedCards, state.unplayedCards[0]];
+         let x = 0;
+         while(state.unplayedCards[x].colour == "black"){
+            x++;
+         }
+         unplayed = state.unplayedCards.splice(x+1, state.unplayedCards.length-x+1);
+         played = [...state.playedCards];
+         for(let i = 0; i <= x; i++){
+            played.push(state.unplayedCards[i]);
+         }
          return { ...state, unplayedCards: unplayed, playedCards: played };
       case types.REBUILD_DECK:
          played = [...state.playedCards].map((c) => {

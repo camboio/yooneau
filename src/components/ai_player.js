@@ -14,6 +14,7 @@ class AiPlayer extends React.Component{
    }
 
    componentWillReceiveProps(nextProps){
+      // console.log(nextProps);
       if(nextProps.active){
          console.log(`I'm ${nextProps.player.name} and I'm active now!`);
       }

@@ -1,36 +1,29 @@
 import React from 'react';
 
 export default class Card extends React.Component{
-   constructor(props){
-      super(props);
-
-      this.colour = this.props.card.colour;
-      this.value = this.props.card.value;
-
-      switch(this.props.card.value){
+   cardValue(value){
+      switch(value){
          case 10:
-            this.displayName = 'Reverse';
-            break;
+            return 'Reverse';
          case 11:
-            this.displayName = 'Skip';
-            break;
+            return 'Skip';
          case 12:
-            this.displayName = 'Draw 2';
-            break;
+            return 'Draw 2';
          case 13:
-            this.displayName = 'Draw 4';
-            break;
+            return 'Draw 4';
          case 14:
-            this.displayName = 'Wild';
-            break;
+            return 'Wild';
+         default:
+            return value;
       }
    }
 
    render(){
       return (
-         <div className="card-component">
-            <div>{this.colour}</div>
-            <div>{this.displayName}</div>
+         <div className="card-component" style={this.props.style}
+            onClick={this.props.onClick}>
+            <div>{this.props.card.colour}</div>
+            <div>{this.cardValue(this.props.card.value)}</div>
          </div>
       );
    }

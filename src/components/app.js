@@ -99,7 +99,7 @@ class App extends Component {
    render() {
       return (
          <div>
-            <Deck cards={this.props.deck.unplayedCards}/>
+            {/* <Deck cards={this.props.deck.unplayedCards}/> */}
             <PlayedCards cards={this.props.deck.playedCards}/>
             {this.renderPlayers()}
          </div>

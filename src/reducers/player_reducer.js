@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import * as types from '../actions/types';
 
 // player: {
@@ -8,7 +10,7 @@ import * as types from '../actions/types';
 // active: string
 
 export default function(state = {active: null, players: {}}, action){
-   let nextState, nextCards, key, player, x;
+   let nextState, nextCards, key, player, x, card;
 
    switch(action.type){
       case types.ADD_AI_PLAYER:
@@ -30,15 +32,16 @@ export default function(state = {active: null, players: {}}, action){
       case types.PLAY_CARD:
          nextState = { ...state };
          key = action.payload.player.id;
-         nextCards = [];
+         card = action.payload.card;
          x = true;
-         for(let i = 0; i < nextState.players[key].cards.length; i++){
-            if(x && nextState.players[key].cards[i] == action.payload.card){
-               x = !x; continue;
+         nextCards = nextState.players[key].cards.map((c) =>{
+            if(x && c.colour == card.colour && c.value == card.value){
+               x = false;
+               return null;
             }
-            nextCards.push(nextState.players[key].cards[i]);
-         }
-         nextState.players[key].cards = nextCards;
+            return c;
+         });
+         nextState.players[key].cards = _.compact(nextCards);
          return nextState;
       case types.GAME_FIRST_PLAYER:
          nextState = { ...state };
