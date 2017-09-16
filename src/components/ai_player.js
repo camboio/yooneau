@@ -88,24 +88,25 @@ class AiPlayer extends React.Component{
    aiMovement(){
       if(!this.props.active){
          console.log(`i'm player ${this.props.player.name} and i'm not active yet`);
-         setTimeout(this.aiMovement, 500);
-         return null;
-      }
-      const playableCards = _.compact(this.props.player.cards.map((card) => {
-         return this.playableCard(card) ? card : null;
-      }));
-      if(playableCards.length > 0){
-         if(playableCards[0].colour == "black"){
-            const colours = ['red','blue','green','yellow'];
-            const select = Date.now() % (colours.length-1);
-            console.log('select', select);
-            this.confirmColour(colours[select], playableCards[0]);
-         }else{
-            this.playCard(playableCards[0]);
-         }
+         // debugger;
+         setTimeout(this.aiMovement, 1000);
       }else{
-         this.drawCard(true);
-         this.props.gameEvaluateMove(types.DRAW_CARD);
+         const playableCards = _.compact(this.props.player.cards.map((card) => {
+            return this.playableCard(card) ? card : null;
+         }));
+         if(playableCards.length > 0){
+            if(playableCards[0].colour == "black"){
+               const colours = ['red','blue','green','yellow'];
+               const select = Date.now() % (colours.length-1);
+               // console.log('select', select);
+               this.confirmColour(colours[select], playableCards[0]);
+            }else{
+               this.playCard(playableCards[0]);
+            }
+         }else{
+            this.drawCard(true);
+            this.props.gameEvaluateMove(types.DRAW_CARD);
+         }
       }
    }
 
