@@ -55,6 +55,10 @@ export default function(state = {active: null, players: {}}, action){
          player = action.payload;
          nextState.active = key[player];
          return nextState;
+      case types.GAME_WINNER:
+         nextState = {...state};
+         nextState.active = null;
+         return nextState;
    }
    return state;
 }
