@@ -1,6 +1,6 @@
 import * as types from '../actions/types';
 
-const initialGameState = { state: null, lastMove: null, clockwise: true };
+const initialGameState = { state: null, lastMove: null, clockwise: true, winner: null };
 
 export default function(state = initialGameState, action){
    switch(action.type){
@@ -16,6 +16,8 @@ export default function(state = initialGameState, action){
          return { ...state, state: types.GAME_FIRST_PLAYER };
       case types.GAME_PLAYER_PLAYING:
          return { ...state, state: types.GAME_PLAYER_PLAYING };
+      case types.GAME_WINNER:
+         return { ...state, state: types.GAME_WINNER, winner: action.payload };
       case types.DRAW_CARD:
          return { ...state, lastMove: types.DRAW_CARD };
       case types.PLAY_CARD:

@@ -18,7 +18,7 @@ export function drawCard(player, card){
 }
 
 export function playCard(player, card){
-   console.log(player, card);
+   // console.log(player, card);
    return {type: types.PLAY_CARD, payload: {player, card}};
 }
 
@@ -44,4 +44,8 @@ export function gameEvaluateMove(){
 
 export function gamePlayerPlaying(){
    return {type: types.GAME_PLAYER_PLAYING};
+}
+
+export function gameWinner(player){
+   return {type: types.GAME_WINNER, payload: player};
 }

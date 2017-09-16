@@ -59,7 +59,8 @@ export default function(state = initialDeckState, action){
          return { ...state, unplayedCards: shuffleDeck(action.payload)};
       case types.PLAY_FROM_DECK:
          let x = 0;
-         while(state.unplayedCards[x].colour == "black"){
+         while(state.unplayedCards[x].value >= 10){
+            //we don't want any special cards to kick off the game
             x++;
          }
          unplayed = state.unplayedCards.splice(x+1, state.unplayedCards.length-x+1);

@@ -26,6 +26,7 @@ export default function(state = {active: null, players: {}}, action){
          return nextState;
       case types.DRAW_CARD:
          nextState = { ...state };
+         // console.log('draw card', action.payload);
          key = action.payload.player.id;
          nextState.players[key].cards.push(action.payload.card);
          return nextState;
