@@ -9,7 +9,7 @@ export default class Deck extends React.Component{
 
    render(){
       return (
-         <div>
+         <div className="deck-component">
             deck: {this.props.cards.length}
             <div style={{display: 'flex'}}>
                {this.displayDeck()}

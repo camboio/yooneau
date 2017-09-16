@@ -148,15 +148,6 @@ class AiPlayer extends React.Component{
       return false;
    }
 
-   selectColour(card){
-      const colours = ['red','green','blue','yellow'];
-      return colours.map((c) => {
-         return <div key={c} onClick={(e) => {
-            this.confirmColour(c, card);
-         }}>{c}</div>
-      });
-   }
-
    confirmColour(colour, card){
       card.colour = colour;
       this.props.playCard(this.props.player, card);
@@ -166,26 +157,14 @@ class AiPlayer extends React.Component{
 
    render(){
       return(
-         <div>
+         <div className="ai-player-component">
             {this.props.player.name}
             {this.props.active ? ' active' : null}
-            {this.state.selecting ? this.selectColour(this.state.selecting) : null}
             <Hand cards={this.props.player.cards}
             play={this.playCard.bind(this)}
             playable={this.playableCard.bind(this)} />
             <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
-            onClick={(e) => {
-               //check if compelled, cannot draw while compelled
-               if(!this.props.active){
-                  console.log('null draw');
-                  return null;
-               }
-               if(this.state.compelled > 0){
-                  return null;
-               }
-               this.drawCard(true);
-               this.props.gameEvaluateMove(types.DRAW_CARD);
-            }}>
+            >
                draw card
             </div>
          </div>

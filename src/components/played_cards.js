@@ -9,7 +9,7 @@ export default class PlayedCards extends React.Component{
 
    render(){
       return (
-         <div>
+         <div className="played-cards-component">
             played cards:
             <div style={{display: 'flex'}}>
                {this.displayPlayedCards()}

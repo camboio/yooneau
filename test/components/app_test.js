@@ -8,7 +8,7 @@ describe('App' , () => {
     component = renderComponent(App);
   });
 
-  it('renders something', () => {
-    expect(component).to.exist;
+  it('has the right class', () => {
+    expect(component).to.have.class('app-component');
   });
 });

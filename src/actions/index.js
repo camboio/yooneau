@@ -12,6 +12,10 @@ export function addAiPlayer(name){
    return {type: types.ADD_AI_PLAYER, payload: name};
 }
 
+export function addPlayer(name){
+   return {type: types.ADD_PLAYER, payload: name};
+}
+
 export function drawCard(player, card){
    // console.log(player, card);
    return {type: types.DRAW_CARD, payload: {player, card}};

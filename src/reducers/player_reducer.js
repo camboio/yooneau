@@ -20,7 +20,20 @@ export default function(state = {active: null, players: {}}, action){
             id: key,
             name: action.payload,
             cards: [],
-            active: false
+            active: false,
+            human: false
+         }
+         nextState.players[key] = player;
+         return nextState;
+      case types.ADD_PLAYER:
+         nextState = { ...state };
+         key = Object.keys(nextState.players).length;
+         player = {
+            id: key,
+            name: action.payload,
+            cards: [],
+            active: false,
+            human: true
          }
          nextState.players[key] = player;
          return nextState;

@@ -17,7 +17,7 @@ export default class Hand extends React.Component{
 
    render(){
       return (
-         <div>
+         <div className="hand-component">
             Hand:
             <div style={{display: 'flex'}}>
                {this.displayCards()}

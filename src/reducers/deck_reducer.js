@@ -1,4 +1,4 @@
-import Game from '../components/game';
+import GameRules from '../game_rules';
 import * as types from '../actions/types';
 
 const initialDeckState = {
@@ -9,13 +9,13 @@ const initialDeckState = {
 function initialiseDeck(){
    let init = [];
 
-   Game.SUITE_COLOURS.map((colour) => {
-      Game.SUITE_VALUES.map((value) => {
+   GameRules.SUITE_COLOURS.map((colour) => {
+      GameRules.SUITE_VALUES.map((value) => {
          init.push({colour, value});
       })
    });
-   Game.DANGER_VALUES.map((value) => {
-      const colour = Game.DANGER_COLOUR;
+   GameRules.DANGER_VALUES.map((value) => {
+      const colour = GameRules.DANGER_COLOUR;
       init.push({colour, value});
    });
 
@@ -60,7 +60,7 @@ export default function(state = initialDeckState, action){
       case types.PLAY_FROM_DECK:
          let x = 0;
          while(state.unplayedCards[x].value >= 10){
-            //we don't want any special cards to kick off the game
+            //we don't want any special cards to kick off the GameRules
             x++;
          }
          unplayed = state.unplayedCards.splice(x+1, state.unplayedCards.length-x+1);
