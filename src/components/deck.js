@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from './card';
+import CardBack from './cards/card_back';
 
 export default class Deck extends React.Component{
    displayDeck(){
@@ -10,10 +11,11 @@ export default class Deck extends React.Component{
    render(){
       return (
          <div className="deck-component">
-            deck: {this.props.cards.length}
+            {/* deck: {this.props.cards.length}
             <div style={{display: 'flex'}}>
                {this.displayDeck()}
-            </div>
+            </div> */}
+            <CardBack />
          </div>
       );
    }

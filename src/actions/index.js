@@ -53,3 +53,7 @@ export function gamePlayerPlaying(){
 export function gameWinner(player){
    return {type: types.GAME_WINNER, payload: player};
 }
+
+export function restoreState(state){
+   return {type: types.RESTORE_STATE, payload: state};
+}

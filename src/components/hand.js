@@ -1,24 +1,26 @@
 import React from 'react';
 
 import Card from './card';
+import CardBack from './cards/card_back';
+import CardFront from './cards/card_front';
 
 export default class Hand extends React.Component{
    displayCards(){
-      return this.props.cards.map((card, index) => {
-         const style = this.props.playable(card) ? {minWidth: '75px', textDecoration: 'underline'} : {minWidth: '75px'};
-         return <Card key={index} style={style} card={card}
-         onClick={(e) => {
-            this.props.play(card);
-         }} >
-         {`${card.colour} ${card.value}`}
-      </Card>
-      });
+      if(this.props.backs){
+         return this.props.cards.map((card, index) => <CardBack key={index}/>);
+      }else{
+         return this.props.cards.map((card, index) => {
+            return <CardFront key={index} card={card}
+            onClick={(e) => {
+               this.props.play(card);
+            }} />
+         });
+      }
    }
 
    render(){
-      return (
+      return(
          <div className="hand-component">
-            Hand:
             <div style={{display: 'flex'}}>
                {this.displayCards()}
             </div>

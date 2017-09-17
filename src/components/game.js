@@ -18,14 +18,19 @@ class Game extends Component {
    }
 
    componentWillMount(){
-      let x = false;
-      Object.keys(this.props.players).map((key) => {
-         if(this.props.players[key].human){
-            x = true;
+      let username = localStorage.getItem('username');
+      if(username){
+         this.props.addPlayer(username);
+      }else{
+         let x = false;
+         Object.keys(this.props.players).map((key) => {
+            if(this.props.players[key].human){
+               x = true;
+            }
+         });
+         if(!x){
+            this.props.history.push('/');
          }
-      });
-      if(!x){
-         this.props.history.push('/');
       }
    }
 
@@ -110,6 +115,9 @@ class Game extends Component {
          // console.log('game next player');
          this.props.gamePlayerPlaying();
       }
+      if(nextProps.game.state === types.GAME_PLAYER_PLAYING){
+         localStorage.setItem('current_game', nextProps.state);
+      }
       if(nextProps.game.state === types.GAME_WINNER){
          this.setState({winner: nextProps.game.winner});
       }
@@ -145,7 +153,8 @@ function mapStateToProps(state){
       deck: state.deck,
       players: state.players.players,
       active: state.players.active,
-      game: state.game
+      game: state.game,
+      state: state
    };
 }
 

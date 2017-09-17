@@ -13,3 +13,5 @@ export const GAME_EVALUATE_MOVE = 'game evaluate move';
 export const GAME_FIRST_PLAYER = 'game first player';
 export const GAME_PLAYER_PLAYING = 'game player playing';
 export const GAME_WINNER = 'game winner';
+
+export const RESTORE_STATE = 'restore state';

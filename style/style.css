@@ -1,0 +1,67 @@
+body {
+  background-color: #21a80b; }
+
+svg {
+  width: 75px;
+  height: auto;
+  margin: 2px; }
+
+.back0 {
+  fill: #FFFFFF; }
+
+.back1 {
+  font-family: "Roboto-Bold", sans-serif; }
+
+.back2 {
+  font-size: 12px; }
+
+.back3 {
+  fill: #FFFFFF;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-miterlimit: 10; }
+
+.back4 {
+  fill: #ED1C24; }
+
+.front0 {
+  fill: #FFFFFF; }
+
+.front2 {
+  stroke: #000000;
+  stroke-width: 2;
+  stroke-miterlimit: 10; }
+
+.front3 {
+  font-family: "Cousine", monospace; }
+
+.front4 {
+  font-size: 24.8024px; }
+
+.front5 {
+  stroke: #000000;
+  stroke-width: 5;
+  stroke-miterlimit: 10; }
+
+.front6 {
+  font-size: 114.7406px; }
+
+.red {
+  fill: red; }
+
+.yellow {
+  fill: yellow; }
+
+.green {
+  fill: green; }
+
+.blue {
+  fill: blue; }
+
+.black {
+  fill: black; }
+
+.gray {
+  fill: gray; }
+
+/*# sourceMappingURL=style.css.map */

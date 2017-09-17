@@ -6,6 +6,7 @@ import * as actions from '../actions';
 import * as types from '../actions/types';
 
 import Hand from './hand';
+import CardBack from './cards/card_back';
 
 class AiPlayer extends React.Component{
    constructor(props){
@@ -19,64 +20,13 @@ class AiPlayer extends React.Component{
       // console.log(nextProps);
       if(nextProps.active && this.props.active !== nextProps.active){
          // console.log(`I'm ${nextProps.player.name} and I'm active now!`);
-         //this is where we should process initial player actions
-         //if played card is +2 or +4, check played cards to see if
-         //total < +8.
-         if(nextProps.lastMove == types.PLAY_CARD){
-            let i = 0, draw = 0, played = [...nextProps.played].reverse();
-            while(played[i] && (played[i].value == 12 || played[i].value == 13)){
-               draw = draw + (played[i].value % 11) * 2;
-               i++;
-            }
-            // console.log(draw);
-            if(draw == 0){
-               setTimeout(this.aiMovement, 2000);
-            }
-            if(draw == 2 || draw == 4){
-               //check if hand has +2 or +4
-               //otherwise draw card
-               let x = false;
-               nextProps.player.cards.map((card) => {
-                  if(card.value == 12 || card.value == 13){
-                     x = true;
-                     this.setState({compelled: draw});
-                     setTimeout(this.aiMovement, 2000);
-                  }
-               });
-               if(!x){
-                  this.drawCard();
-                  this.setState({drawing: draw-1});
-               }
-            }
-            if(draw == 6){
-               //check if hand has +2
-               //otherwise draw card
-               let x = false;
-               nextProps.player.cards.map((card) => {
-                  if(card.value == 12){
-                     x = true;
-                     this.setState({compelled: draw});
-                     setTimeout(this.aiMovement, 2000);
-                  }
-               });
-               if(!x){
-                  this.drawCard();
-                  this.setState({drawing: draw-1});
-               }
-            }
-            if(draw == 8){
-               this.drawCard();
-               this.setState({drawing: draw-1});
-            }
-         }else{
-            setTimeout(this.aiMovement, 2000);
-         }
+         setTimeout(this.aiMovement, 1000);
       }
       if(nextProps.active && this.props.active == nextProps.active){
          // console.log(`I'm ${nextProps.player.name} and I'm still active!`);
          if(this.state.drawing > 0){
-            this.drawCard();
             this.setState({drawing: this.state.drawing-1});
+            this.drawCard();
          }
          if(this.state.drawing == 0){
             this.props.gameEvaluateMove(types.PLAY_CARD);
@@ -91,22 +41,76 @@ class AiPlayer extends React.Component{
          // debugger;
          setTimeout(this.aiMovement, 1000);
       }else{
-         const playableCards = _.compact(this.props.player.cards.map((card) => {
-            return this.playableCard(card) ? card : null;
-         }));
-         if(playableCards.length > 0){
-            if(playableCards[0].colour == "black"){
-               const colours = ['red','blue','green','yellow'];
-               const select = Date.now() % (colours.length-1);
-               // console.log('select', select);
-               this.confirmColour(colours[select], playableCards[0]);
+         //this is where we should process initial player actions
+         //if played card is +2 or +4, check played cards to see if
+         //total < +8.
+         if(this.props.lastMove == types.PLAY_CARD){
+            let i = 0, draw = 0, played = [...this.props.played].reverse();
+            while(played[i] && (played[i].value == 12 || played[i].value == 13)){
+               draw = draw + (played[i].value % 11) * 2;
+               i++;
+            }
+            // console.log(draw);
+            if(draw == 0){
+               this.makePlay();
+            }else if(draw == 2 || draw == 4){
+               //check if hand has +2 or +4
+               //otherwise draw card
+               let x = false;
+               this.props.player.cards.map((card) => {
+                  if(card.value == 12 || card.value == 13){
+                     x = true;
+                  }
+               });
+               if(!x){
+                  this.setState({drawing: draw-1});
+                  this.drawCard();
+               }else{
+                  this.makePlay();
+               }
+            }else if(draw == 6){
+               //check if hand has +2
+               //otherwise draw card
+               let x = false;
+               this.props.player.cards.map((card) => {
+                  if(card.value == 12){
+                     x = true;
+                  }
+               });
+               if(!x){
+                  this.setState({drawing: draw-1});
+                  this.drawCard();
+               }else{
+                  this.makePlay();
+               }
+            }else if(draw == 8){
+               this.setState({drawing: draw-1});
+               this.drawCard();
             }else{
-               this.playCard(playableCards[0]);
+               console.log(draw);
             }
          }else{
-            this.drawCard(true);
-            this.props.gameEvaluateMove(types.DRAW_CARD);
+            this.makePlay();
          }
+      }
+   }
+
+   makePlay(){
+      const playableCards = _.compact(this.props.player.cards.map((card) => {
+         return this.playableCard(card) ? card : null;
+      }));
+      if(playableCards.length > 0){
+         if(playableCards[0].colour == "black"){
+            const colours = ['red','blue','green','yellow'];
+            const select = Date.now() % (colours.length-1);
+            // console.log('select', select);
+            this.confirmColour(colours[select], playableCards[0]);
+         }else{
+            this.playCard(playableCards[0]);
+         }
+      }else{
+         this.drawCard(true);
+         this.props.gameEvaluateMove(types.DRAW_CARD);
       }
    }
 
@@ -158,15 +162,13 @@ class AiPlayer extends React.Component{
    render(){
       return(
          <div className="ai-player-component">
-            {this.props.player.name}
+            {`${this.props.player.name} - ${this.props.player.cards.length}`}
             {this.props.active ? ' active' : null}
-            <Hand cards={this.props.player.cards}
-            play={this.playCard.bind(this)}
-            playable={this.playableCard.bind(this)} />
-            <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
+            <Hand cards={this.props.player.cards} backs={true} />
+            {/* <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
             >
                draw card
-            </div>
+            </div> */}
          </div>
       );
    }
