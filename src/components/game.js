@@ -139,7 +139,7 @@ class Game extends Component {
    render() {
       return (
          <div className="game-component">
-            {/* <Deck cards={this.props.deck.unplayedCards}/> */}
+            <Deck cards={this.props.deck.unplayedCards}/>
             {this.state.winner && <h1>congrats {this.state.winner.name}! you won!</h1>}
             <PlayedCards cards={this.props.deck.playedCards}/>
             {this.renderPlayers()}

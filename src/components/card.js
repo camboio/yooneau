@@ -1,29 +1,48 @@
 import React from 'react';
 
+import CardBack from './cards/card_back';
+import CardFront from './cards/card_front';
+import CardReverse from './cards/card_reverse';
+import CardSkip from './cards/card_skip';
+import CardWild from './cards/card_wild';
+import CardDrawFour from './cards/card_draw_four';
+import CardDrawTwo from './cards/card_draw_two';
+
 export default class Card extends React.Component{
-   cardValue(value){
-      switch(value){
+   constructor(props){
+      super(props);
+
+      this.onClick = this.onClick.bind(this);
+   }
+
+   cardValue(card){
+      switch(card.value){
          case 10:
-            return 'Reverse';
+            return <CardReverse card={card} onClick={this.onClick} />;
          case 11:
-            return 'Skip';
+            return <CardSkip card={card} onClick={this.onclick} />;
          case 12:
-            return 'Draw 2';
+            return <CardDrawTwo card={card} onClick={this.onClick} />;
          case 13:
-            return 'Draw 4';
+            return <CardDrawFour card={card} onClick={this.onClick} />;
          case 14:
-            return 'Wild';
+            return <CardWild card={card} onClick={this.onClick} />
          default:
-            return value;
+            return <CardFront card={card} onClick={this.onClick} />;
       }
    }
 
+   onClick(e){
+      this.props.onClick(card);
+   }
+
    render(){
+      const back = this.props.back;
+      const card = this.cardValue(this.props.card);
       return (
-         <div className="card-component" style={this.props.style}
-            onClick={this.props.onClick}>
-            <div>{this.props.card.colour}</div>
-            <div>{this.cardValue(this.props.card.value)}</div>
+         <div className="card-component">
+            {!back && card}
+            {back && <CardBack />}
          </div>
       );
    }
