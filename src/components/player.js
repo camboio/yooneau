@@ -127,32 +127,34 @@ class Player extends React.Component{
       card.colour = colour;
       this.props.playCard(this.props.player, card);
       this.props.gameEvaluateMove(types.PLAY_CARD);
-      this.setState({ selecting: null });
+      this.setState({ selecting: null, compelled: 0 });
    }
 
    render(){
+      const drawButton = <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
+      onClick={(e) => {
+         //check if compelled, cannot draw while compelled
+         if(!this.props.active){
+            console.log('null draw');
+            return null;
+         }
+         if(this.state.compelled > 0){
+            return null;
+         }
+         this.drawCard(true);
+         this.props.gameEvaluateMove(types.DRAW_CARD);
+      }}>
+         <i className="fa fa-hand-paper-o"></i>
+      </div>;
+
       return(
          <div className="player-component">
-            {this.props.player.name}
-            {this.props.active ? ' active' : null}
-            {this.state.selecting ? this.selectColour(this.state.selecting) : null}
             <Hand cards={this.props.player.cards}
-            play={this.playCard.bind(this)}
-            playable={this.playableCard.bind(this)} />
-            <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
-            onClick={(e) => {
-               //check if compelled, cannot draw while compelled
-               if(!this.props.active){
-                  console.log('null draw');
-                  return null;
-               }
-               if(this.state.compelled > 0){
-                  return null;
-               }
-               this.drawCard(true);
-               this.props.gameEvaluateMove(types.DRAW_CARD);
-            }}>
-               draw card
+               play={this.playCard.bind(this)} playable={this.playableCard.bind(this)} />
+            <div className="drawButton">
+               {this.props.player.name}
+               {this.state.selecting && this.selectColour(this.state.selecting)}
+               {!this.state.selecting && drawButton}
             </div>
          </div>
       );

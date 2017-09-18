@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardFront from './cards/card_front';
+import Card from './card';
 
 export default class PlayedCards extends React.Component{
    displayPlayedCards(){
@@ -15,7 +15,7 @@ export default class PlayedCards extends React.Component{
          <div className="played-cards-component">
             <div style={{display: 'flex'}}>
                {/* {card && <div style={{minWidth: '75px'}}>{`${card.colour} ${card.value}`}</div>} */}
-               {card && <CardFront card={card} />}
+               {card && <Card card={card} />}
             </div>
          </div>
       );

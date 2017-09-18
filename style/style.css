@@ -1,17 +1,79 @@
-body {
-  background-color: #21a80b; }
-
-.game-component {
-  background-color: #21a80b;
-  width: 100vw;
-  height: 56.25vw; }
-
 svg {
   width: 10vw;
   height: auto;
-  margin: 0.3vw;
   cursor: pointer;
   user-select: none; }
+
+.game-component {
+  background-color: #21a80b;
+  overflow: hidden;
+  width: 100vw;
+  height: 56.25vw; }
+  .game-component .players-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 56.25vw; }
+    .game-component .players-container .player-component {
+      position: absolute;
+      bottom: 0;
+      left: 10vw;
+      width: 80vw;
+      display: flex;
+      justify-content: center; }
+      .game-component .players-container .player-component .hand-component {
+        justify-content: flex-end; }
+        .game-component .players-container .player-component .hand-component .card-component + .card-component {
+          margin: 0 0.3vw 0 -6.0vw; }
+      .game-component .players-container .player-component .drawButton {
+        display: flex;
+        flex-direction: column; }
+    .game-component .players-container .ai1 {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      margin-left: -5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transform: rotate(90deg); }
+    .game-component .players-container .ai2 {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      margin-top: -5vw;
+      display: flex;
+      justify-content: center;
+      transform: rotate(180deg); }
+    .game-component .players-container .ai3 {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      margin-right: -5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transform: rotate(270deg); }
+  .game-component .card-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 56.25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .game-component .card-container .card-component {
+      margin: 0.3vw; }
+
+.hand-component {
+  display: flex; }
+
+.ai-player-component .hand-component .card-component + .card-component {
+  margin-left: -8.5vw; }
 
 .back0 {
   fill: #FFFFFF; }

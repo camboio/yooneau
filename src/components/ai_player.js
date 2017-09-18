@@ -37,7 +37,7 @@ class AiPlayer extends React.Component{
 
    aiMovement(){
       if(!this.props.active){
-         console.log(`i'm player ${this.props.player.name} and i'm not active yet`);
+         // console.log(`i'm player ${this.props.player.name} and i'm not active yet`);
          // debugger;
          setTimeout(this.aiMovement, 1000);
       }else{
@@ -156,19 +156,13 @@ class AiPlayer extends React.Component{
       card.colour = colour;
       this.props.playCard(this.props.player, card);
       this.props.gameEvaluateMove(types.PLAY_CARD);
-      this.setState({ selecting: null });
+      this.setState({ selecting: null, compelled: 0 });
    }
 
    render(){
       return(
-         <div className="ai-player-component">
-            {`${this.props.player.name} - ${this.props.player.cards.length}`}
-            {this.props.active ? ' active' : null}
+         <div className={`ai-player-component${this.props.className ? ' '+this.props.className : ''}`}>
             <Hand cards={this.props.player.cards} backs={true} />
-            {/* <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
-            >
-               draw card
-            </div> */}
          </div>
       );
    }

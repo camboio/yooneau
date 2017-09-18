@@ -10,7 +10,7 @@ export default class CardDrawTwo extends React.Component{
                <path id="XMLID_5_" className="dt0" d="M146.7 243.8H12c-6.6 0-12-5.4-12-12V12C0 5.4 5.4 0 12 0h134.7c6.6 0 12 5.4 12 12v219.8c0 6.6-5.4 12-12 12z"/>
             </g>
             <g id="Layer_1">
-               <path id="XMLID_19_" className="dt1" d="M147.5 79.1c0-37.6-30.4-68-68-68h-68v153.2c0 37.6 30.4 68 68 68h68V79.1z"/>
+               <path id="XMLID_19_" className={colour} d="M147.5 79.1c0-37.6-30.4-68-68-68h-68v153.2c0 37.6 30.4 68 68 68h68V79.1z"/>
             </g>
             <g id="Layer_8">
                <g id="XMLID_43_">

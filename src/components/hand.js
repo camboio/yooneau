@@ -12,7 +12,7 @@ export default class Hand extends React.Component{
          );
       });
       return(
-         <div className="hand-component" style={{display: 'flex'}}>
+         <div className="hand-component">
             {cards}
          </div>
       );

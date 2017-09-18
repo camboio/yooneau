@@ -33,15 +33,14 @@ export default class Card extends React.Component{
    }
 
    onClick(e){
-      this.props.onClick(card);
+      this.props.onClick(this.props.card);
    }
 
    render(){
       const back = this.props.back;
-      const card = this.cardValue(this.props.card);
       return (
          <div className="card-component">
-            {!back && card}
+            {!back && this.cardValue(this.props.card)}
             {back && <CardBack />}
          </div>
       );

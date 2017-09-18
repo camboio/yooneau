@@ -55,7 +55,7 @@ class Game extends Component {
          // console.log('game initialise');
          // add 3 AI players
          for(let i = 0; i < 3; i++){
-            nextProps.addAiPlayer(`Player ${i + 1}`);
+            nextProps.addAiPlayer(`AI ${i + 1}`);
          }
 
          this.props.gameDeal();
@@ -124,25 +124,39 @@ class Game extends Component {
    }
 
    renderPlayers(){
-      const players = {...this.props.players};
-      return Object.keys(players).map((key, index) => {
-         if(players[key].human){
-            return <Player key={index} player={players[key]}
-            active={this.props.active == key ? true : false} />;
-         }else{
-            return <AiPlayer key={index} player={players[key]}
-            active={this.props.active == key ? true : false} />;
-         }
-      });
+      return (
+         <div className="players-container">
+         <Player player={this.props.players[0]}
+         active={this.props.active == 0 ? true : false} />
+         <AiPlayer className="ai1" player={this.props.players[1]}
+         active={this.props.active == 1 ? true : false} />
+         <AiPlayer className="ai2" player={this.props.players[2]}
+         active={this.props.active == 2 ? true : false} />
+         <AiPlayer className="ai3" player={this.props.players[3]}
+         active={this.props.active == 3 ? true : false} />
+      </div>
+      );
    }
 
    render() {
+      // const players = Object.keys(this.props.players).map((key, index) => {
+      //    if(this.props.players[key].human){
+      //       return <Player key={index} player={this.props.players[key]}
+      //       active={this.props.active == key ? true : false} />;
+      //    }else{
+      //       return <AiPlayer key={index} player={this.props.players[key]}
+      //       active={this.props.active == key ? true : false} />;
+      //    }
+      // });
+
       return (
          <div className="game-component">
-            <Deck cards={this.props.deck.unplayedCards}/>
+            <div className="card-container">
+               <Deck cards={this.props.deck.unplayedCards}/>
+               <PlayedCards cards={this.props.deck.playedCards}/>
+            </div>
             {this.state.winner && <h1>congrats {this.state.winner.name}! you won!</h1>}
-            <PlayedCards cards={this.props.deck.playedCards}/>
-            {this.renderPlayers()}
+            {this.props.players[3] && this.renderPlayers()}
          </div>
       );
    }
