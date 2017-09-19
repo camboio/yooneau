@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from './card';
+import DraggableCard from './draggable_card';
 
 export default class Deck extends React.Component{
    displayDeck(){
@@ -14,7 +15,8 @@ export default class Deck extends React.Component{
             <div style={{display: 'flex'}}>
                {this.displayDeck()}
             </div> */}
-            <Card back={true} />
+            {/* <Card back={true} /> */}
+            <DraggableCard back={true} />
          </div>
       );
    }

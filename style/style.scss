@@ -11,6 +11,10 @@ svg{
 }
 
 .game-component{
+   position: absolute;
+   top: 0;
+   left: 0;
+
    background-color: #21a80b;
    overflow: hidden;
    width: 100vw;
@@ -19,12 +23,9 @@ svg{
    .players-container{
       // background-color: navy;
 
-      position: absolute;
-      top: 0;
-      left: 0;
       overflow: hidden;
-      width: 100vw;
-      height: 56.25vw;
+      // width: 100vw;
+      // height: 56.25vw;
 
       .player-component{
          position: absolute;
@@ -36,9 +37,36 @@ svg{
          justify-content: center;
 
          .hand-component{
-            justify-content: flex-end;
+            min-width: 40vw;
+            justify-content: flex-start;
+
+            .card-component{
+               transition: all 500ms;
+            }
+
+            .card-component:hover{
+               // padding-left: 1vw;
+               padding-bottom: 0.5vw;
+            }
+
             .card-component + .card-component{
                margin: 0 0.3vw 0 -6.0vw;
+            }
+
+            .card-component.playable{
+               margin: 0 0.3vw 0 -5vw;
+               padding-bottom: 1vw;
+               // filter: grayscale(10%);
+            }
+
+            .card-component.playable:hover{
+               padding-bottom: 1.5vw;
+            }
+
+            .card-component.enter{
+               transform: translate(17vw, -22.5vw);
+               margin: 0 0 0 -10vw;
+               opacity: 0;
             }
          }
 
@@ -53,13 +81,25 @@ svg{
          left: 0;
 
          height: 100%;
-         margin-left: -5vw;
+         // margin-left: -5vw;
 
          display: flex;
          flex-direction: column;
          justify-content: center;
 
-         transform: rotate(90deg);
+         // transform: rotate(90deg);
+         .hand-component{
+            flex-direction: column;
+            justify-content: center;
+            .card-component{
+               margin-left: 0;
+               transform: rotate(90deg);
+            }
+
+            .card-component + .card-component{
+               margin-top: -12.5vw;
+            }
+         }
       }
 
       .ai2{
@@ -67,12 +107,19 @@ svg{
          top: 0;
 
          width: 100%;
-         margin-top: -5vw;
+         // margin-top: -5vw;
 
          display: flex;
          justify-content: center;
 
-         transform: rotate(180deg);
+         // transform: rotate(180deg);
+         .hand-component{
+            // flex-direction: column;
+            justify-content: center;
+            .card-component{
+               transform: rotate(180deg);
+            }
+         }
       }
 
       .ai3{
@@ -80,42 +127,57 @@ svg{
          right: 0;
 
          height: 100%;
-         margin-right: -5vw;
+         // margin-right: -5vw;
 
          display: flex;
          flex-direction: column;
          justify-content: center;
 
-         transform: rotate(270deg);
+         // transform: rotate(270deg);
+         .hand-component{
+            flex-direction: column;
+            justify-content: center;
+            .card-component{
+               margin-left: 0;
+               transform: rotate(270deg);
+            }
+
+            .card-component + .card-component{
+               margin-top: -12.5vw;
+            }
+         }
       }
    }
 
-   .card-container{
+   .deck-component{
       position: absolute;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      width: 100vw;
-      height: 56.25vw;
+      left: 35vw;
+      top: 18vw;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .card-component{
-         margin: 0.3vw;
+      div{
+         position: absolute;
+         top: 0;
+         left: 0;
       }
+   }
+
+   .played-cards-component{
+      position: absolute;
+      left: 55vw;
+      top: 18vw;
    }
 }
 
 .hand-component{
    display: flex;
+   justify-content: flex-end;
+   align-items: flex-end;
 }
 
 .ai-player-component{
    .hand-component{
       .card-component + .card-component{
-         margin-left: -8.5vw;
+         margin-left: -7.5vw;
       }
    }
 }
@@ -194,10 +256,25 @@ svg{
 .gray{fill:gray;}
 
 .hand-enter{
+   transform: rotate(30deg) translateY(-25vh);
    opacity: 0;
 }
 
 .hand-enter.hand-enter-active{
    opacity: 1;
-   transition: all 200ms ease-in;
+   transform-origin: bottom center;
+   transform: translateY(0vh);
+   transition: all 500ms;
+}
+
+.hand-exit{
+   opacity: 1;
+   transform-origin: top center;
+   transform: translateY(0vh);
+   transition: all 2000ms;
+}
+
+.hand-exit.hand-exit-active{
+   transform: rotate(-15deg) translateY(-30vh);
+   opacity: 0;
 }

@@ -12,7 +12,13 @@ export default class Card extends React.Component{
    constructor(props){
       super(props);
 
+      this.state = { enter: true, exit: false };
+
       this.onClick = this.onClick.bind(this);
+   }
+
+   componentDidMount(){
+      setTimeout(() => this.setState({enter: false}), 500);
    }
 
    cardValue(card){
@@ -20,7 +26,7 @@ export default class Card extends React.Component{
          case 10:
             return <CardReverse card={card} onClick={this.onClick} />;
          case 11:
-            return <CardSkip card={card} onClick={this.onclick} />;
+            return <CardSkip card={card} onClick={this.onClick} />;
          case 12:
             return <CardDrawTwo card={card} onClick={this.onClick} />;
          case 13:
@@ -33,13 +39,21 @@ export default class Card extends React.Component{
    }
 
    onClick(e){
-      this.props.onClick(this.props.card);
+      this.props.onClick ? this.props.onClick(this.props.card) : null;
+   }
+
+   className(){
+      let name = 'card-component';
+      name += this.props.playable ? ' playable' : '';
+      name += this.state.enter ? ' enter' : '';
+      name += this.state.exit ? ' exit' : '';
+      return name;
    }
 
    render(){
-      const back = this.props.back;
+      const back = (this.props.back || this.state.enter);
       return (
-         <div className="card-component">
+         <div className={this.className()}>
             {!back && this.cardValue(this.props.card)}
             {back && <CardBack />}
          </div>

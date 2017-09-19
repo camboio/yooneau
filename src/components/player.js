@@ -11,6 +11,7 @@ class Player extends React.Component{
    constructor(props){
       super(props);
 
+      this.draw = this.draw.bind(this);
       this.state = { drawing: null, selecting: null, compelled: 0 }
    }
 
@@ -77,6 +78,19 @@ class Player extends React.Component{
       }
    }
 
+   draw(){
+      //check if compelled, cannot draw while compelled
+      if(!this.props.active){
+         console.log('null draw');
+         return null;
+      }
+      if(this.state.compelled > 0){
+         return null;
+      }
+      this.drawCard(true);
+      this.props.gameEvaluateMove(types.DRAW_CARD);
+   }
+
    drawCard(play=false){
       const card = this.props.unplayed[0];
          this.props.drawCard(this.props.player, card);
@@ -132,29 +146,19 @@ class Player extends React.Component{
 
    render(){
       const drawButton = <div className={`btn btn-${this.props.active ? 'primary' : 'default'}`}
-      onClick={(e) => {
-         //check if compelled, cannot draw while compelled
-         if(!this.props.active){
-            console.log('null draw');
-            return null;
-         }
-         if(this.state.compelled > 0){
-            return null;
-         }
-         this.drawCard(true);
-         this.props.gameEvaluateMove(types.DRAW_CARD);
-      }}>
+      onClick={this.draw}>
          <i className="fa fa-hand-paper-o"></i>
       </div>;
 
       return(
          <div className="player-component">
             <Hand cards={this.props.player.cards}
-               play={this.playCard.bind(this)} playable={this.playableCard.bind(this)} />
+               play={this.playCard.bind(this)} playable={this.playableCard.bind(this)}
+               draw={this.draw}/>
             <div className="drawButton">
                {this.props.player.name}
                {this.state.selecting && this.selectColour(this.state.selecting)}
-               {!this.state.selecting && drawButton}
+               {/* {!this.state.selecting && drawButton} */}
             </div>
          </div>
       );

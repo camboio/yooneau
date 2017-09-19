@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import * as actions from '../actions';
 import * as types from '../actions/types';
@@ -65,7 +67,9 @@ class Game extends Component {
       dealtCards > cardsToDeal){
          // determine player id based on amount of cards left to deal
          let p = (nextProps.deck.unplayedCards.length - cardsToDeal) % players.length;
-         this.props.drawCard(nextProps.players[p], nextProps.deck.unplayedCards[0]);
+         setTimeout(() => {
+            this.props.drawCard(nextProps.players[p], nextProps.deck.unplayedCards[0]);
+         }, 100);
       }
       //dealing is done
       if(nextProps.game.state == types.GAME_DEAL &&
@@ -151,10 +155,8 @@ class Game extends Component {
 
       return (
          <div className="game-component">
-            <div className="card-container">
-               <Deck cards={this.props.deck.unplayedCards}/>
-               <PlayedCards cards={this.props.deck.playedCards}/>
-            </div>
+            <Deck cards={this.props.deck.unplayedCards}/>
+            <PlayedCards cards={this.props.deck.playedCards}/>
             {this.state.winner && <h1>congrats {this.state.winner.name}! you won!</h1>}
             {this.props.players[3] && this.renderPlayers()}
          </div>
@@ -172,4 +174,4 @@ function mapStateToProps(state){
    };
 }
 
-export default connect(mapStateToProps, actions)(Game);
+export default DragDropContext(HTML5Backend)(connect(mapStateToProps, actions)(Game));
