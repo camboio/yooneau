@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
+import LogoIcon from './logo_icon';
 
 class Home extends React.Component{
    constructor(props){
@@ -22,12 +23,18 @@ class Home extends React.Component{
    render(){
       return(
          <div className="home-component">
-            hello friend, would you like to play some yooneau?
-            <input type="text" value={this.state.username} onChange={(e) =>{
-               e.preventDefault();
-               this.setState({username: e.target.value});
-            }} placeholder="enter a user name"/>
-            <div className="btn btn-primary" onClick={this.handleSubmit.bind(this)}>play!</div>
+            <div>
+               <LogoIcon />
+            </div>
+            <div>
+               <div className="input">
+                  <input type="text" value={this.state.username} onChange={(e) =>{
+                     e.preventDefault();
+                     this.setState({username: e.target.value});
+                  }} placeholder="enter a user name"/>
+                  <div className="button" onClick={this.handleSubmit.bind(this)}>play!</div>
+               </div>
+            </div>
          </div>
       );
    }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 
 import * as actions from '../actions';
 import * as types from '../actions/types';
@@ -155,7 +153,6 @@ class Game extends Component {
 
       return (
          <div className="game-component">
-            <Deck cards={this.props.deck.unplayedCards}/>
             <PlayedCards cards={this.props.deck.playedCards}/>
             {this.state.winner && <h1>congrats {this.state.winner.name}! you won!</h1>}
             {this.props.players[3] && this.renderPlayers()}
@@ -174,4 +171,4 @@ function mapStateToProps(state){
    };
 }
 
-export default DragDropContext(HTML5Backend)(connect(mapStateToProps, actions)(Game));
+export default connect(mapStateToProps, actions)(Game);

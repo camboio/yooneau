@@ -1,22 +1,17 @@
 import React from 'react';
 
 import Card from './card';
-import DraggableCard from './draggable_card';
 
 export default class Deck extends React.Component{
-   displayDeck(){
-      return this.props.cards.map((card, index) => <div key={index} style={{minWidth: '75px'}}>{`${card.colour} ${card.value}`}</div>);
-   }
-
    render(){
       return (
-         <div className="deck-component">
-            {/* deck: {this.props.cards.length}
-            <div style={{display: 'flex'}}>
-               {this.displayDeck()}
-            </div> */}
-            {/* <Card back={true} /> */}
-            <DraggableCard back={true} />
+         <div className={`deck-component${this.props.active ? ' active':''}`}
+            onClick={this.props.onClick}>
+            <Card back={true} />
+            <Card back={true} />
+            <Card back={true} />
+            <Card back={true} />
+            <Card back={true} />
          </div>
       );
    }

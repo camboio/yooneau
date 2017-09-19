@@ -6,6 +6,7 @@ import * as actions from '../actions';
 import * as types from '../actions/types';
 
 import Hand from './hand';
+import Deck from './deck';
 
 class Player extends React.Component{
    constructor(props){
@@ -151,14 +152,17 @@ class Player extends React.Component{
       </div>;
 
       return(
-         <div className="player-component">
-            <Hand cards={this.props.player.cards}
-               play={this.playCard.bind(this)} playable={this.playableCard.bind(this)}
-               draw={this.draw}/>
-            <div className="drawButton">
-               {this.props.player.name}
-               {this.state.selecting && this.selectColour(this.state.selecting)}
-               {/* {!this.state.selecting && drawButton} */}
+         <div>
+            <Deck onClick={this.draw} active={this.props.active} />
+            <div className="player-component">
+               <Hand cards={this.props.player.cards}
+                  play={this.playCard.bind(this)} playable={this.playableCard.bind(this)}
+                  draw={this.draw}/>
+               <div className="drawButton">
+                  {this.props.player.name}
+                  {this.state.selecting && this.selectColour(this.state.selecting)}
+                  {/* {!this.state.selecting && drawButton} */}
+               </div>
             </div>
          </div>
       );

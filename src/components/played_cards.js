@@ -6,17 +6,20 @@ export default class PlayedCards extends React.Component{
    displayPlayedCards(){
       let pc = [...this.props.cards];
       pc.reverse();
-      return pc.map((card, index) => <div key={index} style={{minWidth: '75px'}}>{`${card.colour} ${card.value}`}</div>);
+      const cards = pc.map((card, index) => <Card key={index} card={card} />);
+      const amount = cards.length > 5 ? 5 : cards.length;
+      let stack = [];
+      for(let i = 0; i < amount; i++){
+         stack.unshift(cards[i]);
+      }
+      return stack;
    }
 
    render(){
-      const card = [...this.props.cards].pop();
+      const cards = this.displayPlayedCards();
       return (
          <div className="played-cards-component">
-            <div style={{display: 'flex'}}>
-               {/* {card && <div style={{minWidth: '75px'}}>{`${card.colour} ${card.value}`}</div>} */}
-               {card && <Card card={card} />}
-            </div>
+            {cards && cards}
          </div>
       );
    }
